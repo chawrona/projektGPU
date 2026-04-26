@@ -5,19 +5,18 @@
 #include <cuda_runtime.h>
 
 __global__ void wave_step_kernel(
-    const float* __restrict__ prev,
-    const float* __restrict__ curr,
-          float* __restrict__ next)
+    float*  prev,
+    float*  curr,
+    float*  next)
 {
     int j = blockIdx.x * blockDim.x + threadIdx.x;
     int i = blockIdx.y * blockDim.y + threadIdx.y;
-
-    if (i < 1 || i >= MATRIX_SIZE-1 || j < 1 || j >= MATRIX_SIZE-1) return;
 
     int idx = i * MATRIX_SIZE + j;
 
     float orthoSum = curr[idx - MATRIX_SIZE] + curr[idx + MATRIX_SIZE]
                    + curr[idx - 1] + curr[idx + 1];
+
     float diagSum  = curr[idx - MATRIX_SIZE - 1] + curr[idx - MATRIX_SIZE + 1]
                    + curr[idx + MATRIX_SIZE - 1] + curr[idx + MATRIX_SIZE + 1];
 
@@ -26,14 +25,19 @@ __global__ void wave_step_kernel(
               * DAMPING;
 }
 
-void testGPU(float* prev, float* curr, float* next, int steps)
-{
-    dim3 block(16, 16);
-    dim3 grid((MATRIX_SIZE + 15) / 16, (MATRIX_SIZE + 15) / 16);
+void testGPU(
+    float* prev,
+    float* curr,
+    float* next,
+    int steps
+) {
+    dim3 block(BLOCK_SIZE, BLOCK_SIZE);
+    dim3 grid(MATRIX_SIZE / BLOCK_SIZE, MATRIX_SIZE / BLOCK_SIZE);
 
     for (int step = 0; step < steps; ++step) {
-        if (step % 50 == 0)
-            force_kernel(prev, curr, step);
+        if (step % 50 == 0) {
+            createForce(prev, curr, step);
+        }
 
         wave_step_kernel<<<grid, block>>>(prev, curr, next);
 
