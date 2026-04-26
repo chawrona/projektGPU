@@ -26,18 +26,6 @@ __global__ void wave_step_kernel(
               * DAMPING;
 }
 
-__global__ void boundary_kernel(float* next)
-{
-    int k = blockIdx.x * blockDim.x + threadIdx.x;
-    if (k >= 1 && k < MATRIX_SIZE-1) {
-        next[k * MATRIX_SIZE + 0]              = next[k * MATRIX_SIZE + 1];
-        next[k * MATRIX_SIZE + MATRIX_SIZE - 1] = next[k * MATRIX_SIZE + MATRIX_SIZE - 2];
-        next[0 * MATRIX_SIZE + k]              = next[1 * MATRIX_SIZE + k];
-        next[(MATRIX_SIZE-1)*MATRIX_SIZE + k]  = next[(MATRIX_SIZE-2)*MATRIX_SIZE + k];
-    }
-}
-
-
 void testGPU(float* prev, float* curr, float* next, int steps)
 {
     dim3 block(16, 16);
@@ -48,7 +36,6 @@ void testGPU(float* prev, float* curr, float* next, int steps)
             force_kernel(prev, curr, step);
 
         wave_step_kernel<<<grid, block>>>(prev, curr, next);
-        boundary_kernel<<<(MATRIX_SIZE + 255) / 256, 256>>>(next);
 
         float* tmp = prev;
         prev = curr;

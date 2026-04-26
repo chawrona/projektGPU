@@ -39,13 +39,4 @@ void wave_step(
             next[idx] *= DAMPING;
         }
     }
-
-    for (unsigned int i = 1; i < MATRIX_SIZE - 1; ++i) {
-        next[i * MATRIX_SIZE + 0]      = curr[i * MATRIX_SIZE + 1];
-        next[i * MATRIX_SIZE + MATRIX_SIZE - 1] = curr[i * MATRIX_SIZE + MATRIX_SIZE - 2];
-    }
-    for (unsigned int j = 1; j < MATRIX_SIZE - 1; ++j) {
-        next[0 * MATRIX_SIZE + j]        = curr[1 * MATRIX_SIZE + j];
-        next[(MATRIX_SIZE - 1) * MATRIX_SIZE + j] = curr[(MATRIX_SIZE - 2) * MATRIX_SIZE + j];
-    }
 }
