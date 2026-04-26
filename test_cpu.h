@@ -1,0 +1,1 @@
+void testCPU(float* prev, float* curr, float* next, int steps);
