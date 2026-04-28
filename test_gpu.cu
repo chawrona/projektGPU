@@ -1,5 +1,4 @@
 #include "config.h"
-#include "test_gpu.h"
 #include "shared.h"
 #include <cmath>
 #include <cuda_runtime.h>

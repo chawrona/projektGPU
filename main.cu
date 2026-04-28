@@ -1,6 +1,6 @@
 #include "config.h"
 #include "utils.h"
-// #include "test_gpu.h"
+#include "test_gpu.h"
 #include "test_cpu.h"
 
 
