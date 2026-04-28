@@ -9,9 +9,9 @@ void wave_step(
     float* curr,
     float* next
 ) {
-    for (unsigned int i = 1; i < MATRIX_SIZE - 1; ++i) {
-        for (unsigned int j = 1; j < MATRIX_SIZE - 1; ++j) {
-            unsigned int idx = i * MATRIX_SIZE + j;
+    for (int i = 1; i < MATRIX_SIZE - 1; ++i) {
+        for (int j = 1; j < MATRIX_SIZE - 1; ++j) {
+            int idx = i * MATRIX_SIZE + j;
             float orthoSum = curr[idx - MATRIX_SIZE] + curr[idx + MATRIX_SIZE]
                            + curr[idx - 1]  + curr[idx + 1];
             float diagSum  = curr[idx - MATRIX_SIZE - 1] + curr[idx - MATRIX_SIZE + 1]
