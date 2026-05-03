@@ -2,11 +2,12 @@
 #include "utils.h"
 #include "test_gpu.h"
 #include "test_cpu.h"
-
+#include <iostream>
 
 #include <cuda_runtime.h>
 
 int main() {
+    std::cout << "START" << std::endl;
     size_t bytes = MATRIX_SIZE * MATRIX_SIZE * sizeof(float);
 
     float* prev;
