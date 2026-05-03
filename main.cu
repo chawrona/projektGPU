@@ -19,7 +19,7 @@ int main() {
 cudaError_t err1 = cudaMallocHost(&prev, bytes);
 cudaError_t err2 = cudaMallocHost(&curr, bytes);
 cudaError_t err3 = cudaMallocHost(&next, bytes);
-std::cout << "prev: " << cudaGetErrorString(err1) << std::endl;
+std::cout << "prev kod: " << (int)err1 << std::endl;
 std::cout << "curr: " << cudaGetErrorString(err2) << std::endl;
 std::cout << "next: " << cudaGetErrorString(err3) << std::endl;
 
