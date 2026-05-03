@@ -11,17 +11,17 @@ using namespace chrono;
 
 
 time_point<high_resolution_clock> startTest() {
-    std::cout << "START TESTU\n";
+    std::cout << "START TESTU" << std:endl;
     return high_resolution_clock::now();
 }
 
 void endTest(time_point<high_resolution_clock> startTime, int steps, int testIndex, string type) {
-    std::cout << "KONIEC TESTU\n";
+    std::cout << "KONIEC TESTU" << std:endl;
     ofstream csv("results.csv", ios::app);
     auto endTime = high_resolution_clock::now();
     double ms = duration<double, milli>(endTime - startTime).count();
     csv << type << "," << steps << "," << testIndex + 1 << "," << ms << "\n";
-    std::cout << "KONIEC ZAPISYWANIA\n";
+    std::cout << "KONIEC ZAPISYWANIA" << std:endl;
 }
 
  
