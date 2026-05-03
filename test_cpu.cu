@@ -1,5 +1,4 @@
 #include "config.h"
-#include "shared.h"
 #include <cmath>
 
 using namespace std;
