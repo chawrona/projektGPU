@@ -49,7 +49,7 @@ void testGPU(
 
     for (int step = 0; step < steps; ++step) {
         if (step % 50 == 0) {
-            createForceKernel(prev, curr, step);
+            createForceKernel<<<1, 1>>>(prev, curr, step);
         }
 
         wave_step_kernel<<<grid, block>>>(prev, curr, next);
