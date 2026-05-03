@@ -1,5 +1,4 @@
 #include "config.h"
-#include "shared.h"
 #include <cmath>
 #include <cuda_runtime.h>
 
@@ -10,6 +9,9 @@ __global__ void wave_step_kernel(
 {
     int j = blockIdx.x * blockDim.x + threadIdx.x;
     int i = blockIdx.y * blockDim.y + threadIdx.y;
+
+    if (i == 0 || i >= MATRIX_SIZE - 1 || j == 0 || j >= MATRIX_SIZE - 1)
+        return;
 
     int idx = i * MATRIX_SIZE + j;
 
@@ -24,6 +26,18 @@ __global__ void wave_step_kernel(
               * DAMPING;
 }
 
+__global__ void createForceKernel(float* prev, float* curr, int step) {
+    int r = MATRIX_SIZE / 4;
+    int O = MATRIX_SIZE / 2;
+    int x = O + (r * sinf(step));
+    int y = O + (r * cosf(step));
+    
+    if (threadIdx.x == 0 && blockIdx.x == 0) {
+        prev[y * MATRIX_SIZE + x] = ENERGY;
+        curr[y * MATRIX_SIZE + x] = ENERGY;
+    }
+}
+
 void testGPU(
     float* prev,
     float* curr,
@@ -35,7 +49,7 @@ void testGPU(
 
     for (int step = 0; step < steps; ++step) {
         if (step % 50 == 0) {
-            createForce(prev, curr, step);
+            createForceKernel(prev, curr, step);
         }
 
         wave_step_kernel<<<grid, block>>>(prev, curr, next);
@@ -48,3 +62,4 @@ void testGPU(
 
     cudaDeviceSynchronize();
 }
+

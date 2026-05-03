@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <chrono>
+#include <cstring>
 
 using namespace std;
 using namespace chrono;
