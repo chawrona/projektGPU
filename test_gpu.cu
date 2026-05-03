@@ -61,5 +61,9 @@ void testGPU(
     }
 
     cudaDeviceSynchronize();
+    cudaError_t err = cudaGetLastError();
+    if (err != cudaSuccess) {
+        printf("CUDA error: %s\n", cudaGetErrorString(err));
+    }
 }
 
