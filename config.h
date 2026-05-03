@@ -8,6 +8,6 @@ constexpr int          BLOCK_SIZE = 16;
 constexpr int          MATRIX_SIZE = BLOCK_SIZE * 6;
 
 constexpr int          STEPS_LENGTH = 5;
-constexpr int          STEPS[] = {100, 200, 300, 400, 500};
-constexpr int          TEST_COUNT = 10;
+constexpr int          STEPS[] = {100, 500, 2000, 5000, 10000};
+constexpr int          TEST_COUNT = 5;
 

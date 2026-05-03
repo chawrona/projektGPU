@@ -7,21 +7,18 @@
 #include <cuda_runtime.h>
 
 int main() {
-    std::cout << "START" << std::endl;
     size_t bytes = MATRIX_SIZE * MATRIX_SIZE * sizeof(float);
-    std::cout << "bytes: " << bytes << std::endl;
 
     float* prev;
     float* curr;
     float* next;
 
-   std::cout << "Alokacja pamieci..." << std::endl;
-cudaError_t err1 = cudaMallocHost(&prev, bytes);
-cudaError_t err2 = cudaMallocHost(&curr, bytes);
-cudaError_t err3 = cudaMallocHost(&next, bytes);
-std::cout << "prev kod: " << (int)err1 << std::endl;
-std::cout << "curr: " << cudaGetErrorString(err2) << std::endl;
-std::cout << "next: " << cudaGetErrorString(err3) << std::endl;
+    cudaMallocHost(&prev, bytes);
+    cudaMallocHost(&curr, bytes);
+    cudaMallocHost(&next, bytes);
+
+    testGPU(prev, curr, next, 1);
+    cudaDeviceSynchronize();
 
     for (int testIndex = 0; testIndex < TEST_COUNT; testIndex++) {
         for (int stepsIndex = 0; stepsIndex < STEPS_LENGTH; stepsIndex++) {
